@@ -1,0 +1,27 @@
+{
+  "name": "erc20-channel",
+  "version": "0.0.1",
+  "description": "Simple state channel to facilitate ERC20 token transfer between two users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tarunbhm/erc20-channel.git"
+  },
+  "author": "Tarun Bansal <tarunbhm@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tarunbhm/erc20-channel/issues"
+  },
+  "homepage": "https://github.com/tarunbhm/erc20-channel#readme",
+  "devDependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
+    "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "chai": "^4.2.0",
+    "ethereum-waffle": "^3.2.0",
+    "ethers": "^5.0.19",
+    "hardhat": "^2.0.2"
+  }
+}
