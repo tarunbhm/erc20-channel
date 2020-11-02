@@ -1,6 +1,8 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+const { getStateReciept } = require("../offchain/channel");
+
 describe("ERC20Channel", function () {
     let tokenContract, channelContract, admin, userOne, userTwo;
 
@@ -21,8 +23,8 @@ describe("ERC20Channel", function () {
         channelContract = await channelFactory.deploy();
         await channelContract.deployed();
 
-        expect(await tokenContract.balanceOf(userOne.address)).to.equal(1000);
-        expect(await tokenContract.balanceOf(userTwo.address)).to.equal(1000);
+        await tokenContract.connect(userOne).approve(channelContract.address, 1000);
+        await tokenContract.connect(userTwo).approve(channelContract.address, 1000);
     });
 
     it("Should open a channel", async function () {
@@ -32,10 +34,20 @@ describe("ERC20Channel", function () {
         expect(channel.isOpen).to.eq(true);
     });
 
-    it("Should close a channel", async function() {
-        const userOneSignature = Buffer.from("something", "utf8");
-        const userTwoSignature = Buffer.from("something", "utf8");
-        const closed = await channelContract.connect(userOne).close(0, 1, 1000, 1000, userOneSignature, userTwoSignature);
+    it("Should close a channel", async function () {
+        const channelId = 0;
+        const userOneBalance = 500;
+        const userTwoBalance = 1500;
+        const signatures = await getStateReciept(channelId, userOne, userTwo, userOneBalance, userTwoBalance);
+
+        await channelContract.connect(userOne).close(
+            channelId, 
+            signatures.nonce, 
+            userOneBalance, 
+            userTwoBalance, 
+            signatures.userOneSig, 
+            signatures.userTwoSig
+        );
 
         const channel = await channelContract.channels(0);
         expect(channel.isOpen).to.eq(false);
