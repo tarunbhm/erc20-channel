@@ -15,11 +15,10 @@ async function getStateReciept(channelId, userOne, userTwo, userOneBalance, user
     const nonce = new Date().getTime();
 
     // Create message to be signed by both users
-    const encoded = abiCoder.encode(
-        ["uint256", "uint256", "uint256", "uint256"],
-        [channelId, nonce, userOneBalance, userTwoBalance]
+    const hash = ethers.utils.solidityKeccak256(
+        ["uint256", "uint256", "address", "address", "uint256", "uint256"],
+        [channelId, nonce, userOne.address, userTwo.address, userOneBalance, userTwoBalance]
     );
-    const hash = ethers.utils.keccak256(encoded);
     const arrayHash = ethers.utils.arrayify(hash);
 
     const userOneSig = await userOne.signMessage(arrayHash);

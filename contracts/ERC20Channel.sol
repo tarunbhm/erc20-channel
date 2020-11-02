@@ -86,7 +86,9 @@ contract ERC20Channel {
         bytes32 hash = keccak256(
             abi.encodePacked(
                 channelId, 
-                nonce, 
+                nonce,
+                channel.userOneAddress,
+                channel.userTwoAddress,
                 userOneBalance, 
                 userTwoBalance
             )
