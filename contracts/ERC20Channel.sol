@@ -80,6 +80,8 @@ contract ERC20Channel {
         // Verify that only one of the channel user is calling close
         require(msg.sender == channel.userOneAddress || msg.sender == channel.userTwoAddress, "Only channel user can call close");
 
+        // TODO track and verify nonce
+
         // Create transfer message as was signed by users for off chain transfers
         bytes32 hash = keccak256(
             abi.encodePacked(
