@@ -31,10 +31,11 @@ describe("ERC20Channel", function () {
         const channelId = await channelContract.open(tokenContract.address, userOne.address, userTwo.address, 1000, 1000);
 
         const channel = await channelContract.channels(channelId.value);
-        expect(channel.isOpen).to.eq(true);
+        expect(channel.isOpen).to.equal(true);
     });
 
     it("Should close a channel", async function () {
+        // Assuming lot of off chain transaction happening and then coming up with following final balances
         const channelId = 0;
         const userOneBalance = 500;
         const userTwoBalance = 1500;
@@ -50,6 +51,10 @@ describe("ERC20Channel", function () {
         );
 
         const channel = await channelContract.channels(0);
-        expect(channel.isOpen).to.eq(false);
+        expect(channel.isOpen).to.equal(false);
+        expect(channel.userOneBalance).to.equal(userOneBalance);
+        expect(channel.userTwoBalance).to.equal(userTwoBalance);
     });
+
+    // TODO add a lot of other negative tests
 });

@@ -11,8 +11,8 @@ const abiCoder = ethers.utils.defaultAbiCoder;
  * @param {*} userTwoBalance user two final balance
  */
 async function getStateReciept(channelId, userOne, userTwo, userOneBalance, userTwoBalance) {
-    // Generate nonce
-    const nonce = Math.floor(Math.random() * 100);
+    // Generate nonce TODO use better mechanism to generate unique nonce
+    const nonce = new Date().getTime();
 
     // Create message to be signed by both users
     const encoded = abiCoder.encode(
